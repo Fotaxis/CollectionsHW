@@ -1,6 +1,8 @@
+
 package ru.naumen.collection.task3;
 
 import java.nio.file.Path;
+import java.util.*;
 
 /**
  * <p>Написать консольное приложение, которое принимает на вход произвольный текстовый файл в формате txt.
@@ -12,6 +14,7 @@ import java.nio.file.Path;
  * @author vpyzhyanov
  * @since 19.10.2023
  */
+
 public class WarAndPeace
 {
 
@@ -19,8 +22,14 @@ public class WarAndPeace
             "Лев_Толстой_Война_и_мир_Том_1,_2,_3,_4_(UTF-8).txt");
 
     public static void main(String[] args) {
+        Map<String, Integer> wordsToCount = new HashMap<>();
+
         new WordParser(WAR_AND_PEACE_FILE_PATH)
                 .forEachWord(word -> {
+                    if (wordsToCount.containsKey(word))
+                        wordsToCount.put(word, wordsToCount.get(word) + 1);
+                    else
+                        wordsToCount.put(word, 1);
                     // TODO ваше действие над word
                 });
         // TODO выполнить задачу
