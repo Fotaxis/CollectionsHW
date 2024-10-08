@@ -1,7 +1,6 @@
 package ru.naumen.collection.task2;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Дано:
@@ -36,7 +35,17 @@ public class Task2
      * Возвращает дубликаты пользователей, которые есть в обеих коллекциях
      */
     public static List<User> findDuplicates(Collection<User> collA, Collection<User> collB) {
-        // TODO реализовать метод
-        return null;
+        List<User> duplicates = new ArrayList<>();
+        Set<User> collASet = new HashSet<>(collA); // чтобы поиск элемента был O(1) и для исключения дубликатов у collA
+        // сложность O(n) т.к. перебирается collA и добавляется в сollASet
+
+        for (User user : collB) {
+            if (collASet.contains(user))
+                duplicates.add(user);
+        }
+        // Сложность перебора O(n), поиска O(1), добавления O(1)
+
+        return duplicates;
+        // Общая сложность O(n + n) => O(n)
     }
 }
