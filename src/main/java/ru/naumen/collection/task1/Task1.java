@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class Task1
 {
-    private final Map<Ticket, Goods> ticketToGoods = new HashMap<>();
+    private final Map<Ticket, Goods> ticketToGoods = new HashMap<>();// для поиска элемента за O(1)
 
     public enum Goods {
         /**
@@ -53,5 +53,6 @@ public class Task1
      */
     public Goods getGoods(Ticket ticket) {
         return ticketToGoods.get(ticket);
+        // O(1) т.к. у ticket переопределён hashCode
     }
 }
