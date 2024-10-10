@@ -46,8 +46,9 @@ public class WarAndPeace
             if (leastFreqWords.size() > 10)
                 leastFreqWords.poll();
         }
-        //O(n + s) для перебора hashMap, size -> O(1), add(poll) - O(log(10) ~ 3) т.к. максимум 10 слов
-        // итого -> O(n + s + 3 * 4 + 1 * 2) -> O(n + s + 14)
+        //O(n + s) для перебора hashMap (n - кол-во слов в hashmap, s - capacity у hashmap), 
+        // size -> O(1), add(poll) - O(log(10) ~ 3) т.к. максимум 10 слов
+        // итого -> O((n+s) * 3 * 2) = O(6n + 6s) или O(n)
 
         System.out.println("TOP 10 наиболее используемых слов:");
         mostFreqWords.stream()
@@ -61,6 +62,6 @@ public class WarAndPeace
                 .forEach((entry) -> System.out.printf("%s - %d раз(а)\n", entry.getKey(), entry.getValue()));
         //(O(10log10) + 10) ~43 т.к. в очереди максимум 10 слов, сложность сортировки nlogn + итерация по элементам
 
-        //Итоговая сложность O(n + n + s + 14 + 43 + 43) -> O(2n + S + 100) или O(n + s)
+        //Итоговая сложность O(n + 6n + 6s  + 43 + 43) -> O(7n + 6S + 86) или O(n)
     }
 }
