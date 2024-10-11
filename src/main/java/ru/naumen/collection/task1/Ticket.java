@@ -20,6 +20,6 @@ public class Ticket {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(id).hashCode();
+        return Long.hashCode(id);
     }
 }
