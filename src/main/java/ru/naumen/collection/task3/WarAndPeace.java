@@ -29,11 +29,10 @@ public class WarAndPeace
         Queue<Map.Entry<String, Integer>> leastFreqWords = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
         // Для быстрого отбрасывания лишних элементов
 
-        new WordParser(WAR_AND_PEACE_FILE_PATH) // O(n) где n кол-во слов
-                .forEachWord(word -> wordsToCount.merge(word, 1, Integer::sum));
-        // O(n), где n кол-во слов
+        new WordParser(WAR_AND_PEACE_FILE_PATH)
+                .forEachWord(word -> wordsToCount.merge(word, 1, Integer::sum)); // O(n) где n кол-во слов
 
-        for (Map.Entry<String, Integer> wordToCount: wordsToCount.entrySet()) { //O(n + s) для перебора hashMap (n - кол-во слов в hashmap, s - capacity у hashmap)
+        for (Map.Entry<String, Integer> wordToCount: wordsToCount.entrySet()) { //O(n) для перебора LinkedHashMap
             mostFreqWords.add(wordToCount); // O(log10), т.к. максимум 10 слов в очереди -> ~3
             if (mostFreqWords.size() > 10)  // O(1)
                 mostFreqWords.poll(); // O(log10), т.к. максимум 10 слов в очереди -> ~3
@@ -41,7 +40,8 @@ public class WarAndPeace
             if (leastFreqWords.size() > 10) //O(1)
                 leastFreqWords.poll(); // O(log10), т.к. максимум 10 слов в очереди -> ~3
         }
-        // итого -> O((n+s) * 4) = O(4n + 4s) или O(n)
+        // итого -> O(n * (3 * 4) // т.к. в цикле с n итерациями максимум 4 операции poll и add,
+        //  у которых сложность O(logn), [n - max10] -> O(12n) или O(n)
 
         System.out.println("TOP 10 наиболее используемых слов:");
         getOrderedQueue(mostFreqWords)
@@ -52,7 +52,7 @@ public class WarAndPeace
                 .forEach((entry) -> System.out.printf("%s - %d раз(а)\n", entry.getKey(), entry.getValue()));
         //(O(10log10) + 10) ~43 т.к. 10log10 у функции getOrderedQueue + 10 на итерацию или O(1)
 
-        //Итоговая сложность O(n + 4n + 4s  + 43 + 43) -> O(5n + 4S + 86) или O(n)
+        //Итоговая сложность - точная: O(n + 12n + 43 + 43) -> O(13n + 86) или O(n)
     }
 
     private static List<Map.Entry<String, Integer>> getOrderedQueue(Queue<Map.Entry<String, Integer>> queue) {
@@ -61,6 +61,6 @@ public class WarAndPeace
             result.addFirst(queue.poll());
         }
         return result;
-        // 10log10 т.к. isEmpty и addFirst - O(1), у poll - O(logn), где n - кол-во элементов (max 10), итераций так же максимум 10
+        // 10log10 т.к. isEmpty и addFirst - O(1), у poll - O(logn), где n - кол-во элементов (max 10), а итераций так же максимум 10
     }
 }
